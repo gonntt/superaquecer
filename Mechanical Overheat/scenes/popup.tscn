@@ -1,0 +1,132 @@
+[gd_scene load_steps=9 format=3 uid="uid://ct8yya6rh2i4j"]
+
+[ext_resource type="Script" path="res://scripts/popup.gd" id="1_eoapf"]
+[ext_resource type="Script" path="res://scripts/ui_janela.gd" id="2_ufuv1"]
+[ext_resource type="FontFile" uid="uid://cu67jlad43msr" path="res://Fonts/Roboto-Regular.ttf" id="3_8tbye"]
+[ext_resource type="Script" path="res://scripts/input.gd" id="4_27amd"]
+[ext_resource type="FontFile" uid="uid://dfaldkknxsti4" path="res://Fonts/Kanit-Regular.ttf" id="5_4msq5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ki62x"]
+bg_color = Color(0.67, 0.67, 0.67, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sbxj2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wtnm4"]
+
+[node name="Popup" type="Node2D"]
+script = ExtResource("1_eoapf")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Janela" type="Window" parent="Camera2D"]
+unique_name_in_owner = true
+title = "Enter your username"
+initial_position = 1
+size = Vector2i(500, 250)
+transient = true
+exclusive = true
+borderless = true
+
+[node name="UIJanela" type="Control" parent="Camera2D/Janela"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_ufuv1")
+
+[node name="PanelContainer" type="PanelContainer" parent="Camera2D/Janela/UIJanela"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Camera2D/Janela/UIJanela/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Rows" type="VBoxContainer" parent="Camera2D/Janela/UIJanela/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="Camera2D/Janela/UIJanela/PanelContainer/MarginContainer/Rows"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Prompt" type="Label" parent="Camera2D/Janela/UIJanela/PanelContainer/MarginContainer/Rows/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_8tbye")
+theme_override_font_sizes/font_size = 24
+text = "Enter your username bellow"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="Camera2D/Janela/UIJanela/PanelContainer/MarginContainer/Rows"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ki62x")
+
+[node name="MarginContainer" type="MarginContainer" parent="Camera2D/Janela/UIJanela/PanelContainer/MarginContainer/Rows/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 7
+
+[node name="Input" type="LineEdit" parent="Camera2D/Janela/UIJanela/PanelContainer/MarginContainer/Rows/PanelContainer2/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_8tbye")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_sbxj2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_wtnm4")
+max_length = 25
+caret_blink = true
+script = ExtResource("4_27amd")
+
+[node name="Button" type="Button" parent="Camera2D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.5
+offset_top = -39.0
+offset_right = 240.5
+offset_bottom = 39.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Change username
+"
+
+[node name="TimerLabel" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 403.0
+offset_top = -324.0
+offset_right = 404.0
+offset_bottom = -227.0
+grow_horizontal = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("5_4msq5")
+theme_override_font_sizes/font_size = 64
+text = "00:00"
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+autostart = true
+
+[connection signal="text_submitted" from="Camera2D/Janela/UIJanela/PanelContainer/MarginContainer/Rows/PanelContainer2/MarginContainer/Input" to="Camera2D/Janela/UIJanela" method="_on_input_text_submitted"]
+[connection signal="pressed" from="Camera2D/Button" to="." method="_on_button_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
