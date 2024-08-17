@@ -1,0 +1,8 @@
+res://Mob.tscn
+res://mob.gd
+res://save_loader.gd
+res://main.tscn
+res://Player/Player.tscn
+res://Platforms/MovingPlatform.tscn
+res://empty_one.tscn
+res://empty_one.gd
